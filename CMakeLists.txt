@@ -41,7 +41,7 @@ if(COMMAND CUDA_SELECT_NVCC_ARCH_FLAGS)
 	LIST(APPEND CUDA_NVCC_FLAGS "${ARCH_FLAGS2}")
 	message(STATUS "cuda flags: ${ARCH_FLAGS2}")
 endif()
-list(APPEND CUDA_NVCC_FLAGS "-std=c++17" "--use_fast_math" "--generate-line-info" "–Xptxas" "-v")
+list(APPEND CUDA_NVCC_FLAGS "-std=c++17" "--use_fast_math" "--generate-line-info" "–Xptxas" "-v" "-fPIC")
 set(MY_CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS})
 set(CUDA_SEPARABLE_COMPILATION ON)
 message(STATUS "final cuda flags: ${CMAKE_CUDA_FLAGS}")
@@ -150,7 +150,7 @@ endif()
 # THIRD PARTY
 ####################################
 add_subdirectory(third-party/lz4)
-set_property(TARGET lz4 PROPERTY CUDA_ARCHITECTURES 61 72)
+set_property(TARGET lz4 PROPERTY CUDA_ARCHITECTURES 61 72 86)
 set_target_properties(lz4 PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 add_subdirectory(imgui)
 add_subdirectory(third-party/pybind11)
@@ -158,12 +158,7 @@ add_subdirectory(third-party/pybind11)
 ####################################
 # COMPRESSION
 ####################################
-if(${RENDERER_BUILD_COMPRESSION})
-    add_subdirectory(compression)
-    add_definitions(-DRENDERER_BUILD_COMPRESSION=1)
-else()
-    add_definitions(-DRENDERER_BUILD_COMPRESSION=0)
-endif()
+add_definitions(-DRENDERER_BUILD_COMPRESSION=0)
 
 ####################################
 # THE LIBRARY
@@ -182,7 +177,7 @@ cmrc_add_resource_library(
 
 	${RENDERER_KERNEL_FILES}
 	)
-set_property(TARGET ${LIBRARY_NAME}-kernels PROPERTY CUDA_ARCHITECTURES 61 72)
+set_property(TARGET ${LIBRARY_NAME}-kernels PROPERTY CUDA_ARCHITECTURES 61 72 86)
 set_target_properties(${LIBRARY_NAME}-kernels PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 ####################################

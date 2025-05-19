@@ -188,7 +188,7 @@ if(NOT ${RENDERER_ONLY_RESOURCES})
     endif(RENDERER_SHARED_LIB)
     source_group("CUDA Headers" REGULAR_EXPRESSION ".*\.cuh")
 
-    set_property(TARGET ${LIBRARY_NAME} PROPERTY CUDA_ARCHITECTURES 61 72)
+    set_property(TARGET ${LIBRARY_NAME} PROPERTY CUDA_ARCHITECTURES 61 72 86)
     set_target_properties(${LIBRARY_NAME} PROPERTIES
         CXX_STANDARD 17
         CXX_STANDARD_REQUIRED YES
@@ -202,7 +202,7 @@ if(NOT ${RENDERER_ONLY_RESOURCES})
             ${LIBRARY_NAME} PRIVATE optimized OpenMP::OpenMP_CXX)
     endif()
     set_property(TARGET ${LIBRARY_NAME} PROPERTY CUDA_STANDARD 17)
-    set_property(TARGET ${LIBRARY_NAME} PROPERTY CUDA_ARCHITECTURES 61 72)
+    set_property(TARGET ${LIBRARY_NAME} PROPERTY CUDA_ARCHITECTURES 61 72 86)
     
     # get include path to the first library header, to be used in the test application
     list(GET ${LIBRARY_HEADER_FILES} 0 LIBRARY_INCLUDE_DIRb)
@@ -317,5 +317,6 @@ if(NOT ${RENDERER_ONLY_RESOURCES})
 	target_link_libraries(${LIBRARY_NAME} PUBLIC ${LIBRARY_NAME}::s)
 	set_property(TARGET ${LIBRARY_NAME}-shaders PROPERTY
 	  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    set_property(TARGET ${LIBRARY_NAME}-shaders PROPERTY CUDA_ARCHITECTURES 61 72)
+    set_property(TARGET ${LIBRARY_NAME}-shaders PROPERTY CUDA_ARCHITECTURES 61 72 86)
+    set_property(TARGET ${LIBRARY_NAME}-shaders PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()

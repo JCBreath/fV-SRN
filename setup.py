@@ -22,7 +22,7 @@ def get_files(base, filter=".*"):
     return [os.path.relpath(f, _root) for f in fx if prog.fullmatch(f)]
 
 _renderer_files = get_files(os.path.join(_root, 'renderer'))
-_compression_files = get_files(os.path.join(_root, 'compression/include')) + get_files(os.path.join(_root, 'compression/src'))
+# _compression_files = get_files(os.path.join(_root, 'compression/include')) + get_files(os.path.join(_root, 'compression/src')) # Not using compression for now
 _binding_files = get_files(os.path.join(_root, 'bindings'))
 _resource_files = \
     get_files(os.path.join(_root, 'build/__cmrc_Renderer-kernels/intermediate')) +\
@@ -77,7 +77,8 @@ setup(
     name='pyrenderer',
     ext_modules=[
         CUDAExtension('pyrenderer',
-            _renderer_files+_binding_files+_resource_files+_thirdparty_files+_imgui_files+_compression_files,
+            # _renderer_files+_binding_files+_resource_files+_thirdparty_files+_imgui_files+_compression_files,
+            _renderer_files+_binding_files+_resource_files+_thirdparty_files+_imgui_files, # Not using compression for now
             extra_compile_args = {
                 'cxx': _common_args,
                 'nvcc': _common_args+["--extended-lambda"]
